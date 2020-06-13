@@ -1,13 +1,12 @@
 class Format():
     con = 0
-    form = []
     i = 0
     def __init__(self):
-        pass
+        self.obj = []
+        self.form =[]
 
-    @staticmethod
-    def count(typ):
-        Format.form.append(typ)
+    def count(self,typ):
+        self.form.append(typ)
     
     @property
     def div(self):
@@ -21,24 +20,37 @@ class Format():
         self.count('h1')
         return self
 
-    def __call__(self,obj):
-        self.obj = obj
-        return self
-
-    def __repr__(self):
+    def __call__(self,*argv):
         s = str()
-        for i in Format.form:
+        print('don1',self,argv,type(argv))
+        for i in argv:
+            i = str(i)
+            self.obj.append(i)
+        print('don2')
+        for i in self.form:
             s = s + "<{0}>".format(i)
+        print(s)
+        print('don3')
+        for i in self.obj:
+            s = s + i
+        print(s)
+        print('don4')
+        for i in range(len(self.form)-1,-1,-1):
+            s = s + '</{}>'.format(self.form[i])
+        print(s)
+        print(self.form,self.obj)
+        self.form = []
+        self.obj = []
+        print(self.form,self.obj)
+        print(s)
+        return str(s)
 
-        s = s + self.obj
 
-        for i in range(len(Format.form)-1,-1,-1):
-            s = s + '</{}>'.format(Format.form[i])
-        return s
+
 
         
 
 
 
 format = Format()
-print(format.div.h1.div.h1('some'))
+print(format.div(format.h1('hello'),format.div('hello2')))
